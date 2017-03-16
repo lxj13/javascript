@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>购物车</title>
+	<style>
+		body,div,p,h4{
+			padding:0;
+			margin:0;
+		}
+		.container{
+			width:900px;
+			height:600px;
+			margin:0 auto;
+			background-color:#f5f5f5;			
+		}
+		.title{
+			font-family: "宋体";
+			text-indent:80px;
+			padding-top:10px;
+			padding-bottom:30px;
+			border-bottom:2px solid #ff6a00;	
+			font-size: 30px;
+		}
+		.title-bar li{
+			list-style:none;
+			float:left;
+			margin-left:130px;
+		}
+		.title-bar ul,.total{
+			width:100%;
+			height:80px;
+			line-height:100px;
+			margin-top:30px;
+			background-color:#fff;
+		}
+		.title-bar input{
+			width:30px;
+			text-align:center;
+			background-color:#;
+		}
+		.title-bar .row li{
+			margin-left:114px;
+		}
+		span{
+			color:orange;
+			font-weight:bolder;
+		}		
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h4 class="title">我的购物车</h4>
+		<div class="title-bar">
+			<ul>
+				<li>商品名称</li>
+				<li>单价</li>
+				<li>数量</li>
+				<li>小计</li>
+			</ul>
+			<ul class="row" id="first">
+				<li>小米便携鼠标</li>
+				<li><span class="price">99</span>元</li>
+				<li><button class=reduce>-</button><input type="text" class="num" value=0><button class="add">+</button></li>
+				<li><span class="max-sum">0</span>元</li>
+			</ul>			
+			<ul class="row" id="sec">
+				<li>笔记本内胆包</li>
+				<li><span class="price">89</span>元</li>
+				<li><button class=reduce>-</button><input type="text" class="num" value=0><button class="add">+</button></li>
+				<li><span class="max-sum">0</span>元</li>
+			</ul>
+			<ul class="row" id="sec">
+				<li>笔记本内胆包</li>
+				<li><span class="price">199</span>元</li>
+				<li><button class=reduce>-</button><input type="text" class="num" value=0><button class="add">+</button></li>
+				<li><span class="max-sum">0</span>元</li>
+			</ul>
+			<ul>
+				<li>共有<span id="total-num"> 0 </span>件商品</li>				
+				<li>总计:<span id="sum"> 0 </span>元</li>
+			</ul>
+		</div>
+	</div>
+
+	<script>
+	window.onload=function(){
+
+		function GId(sId){
+			return document.getElementById(sId);
+		}
+		function GClass(sClass){
+			return document.getElementsByClassName(sClass);
+		}
+
+		var oadd = GClass('add'); //增加按钮
+		var oreduce = GClass('reduce');  //减少按钮
+		var oprice = GClass('price'); //string  单价
+		var onum = GClass('num'); //string  数量
+		var omaxSum = GClass('max-sum'); //string 小计
+		var ototalNum = GId('total-num'); //总共多少件商品
+		var osum = GId('sum');	//总计
+
+		for(var i=0;i<oadd.length;i++){
+			oadd[i].index=i;
+			oreduce[i].index=i;
+			oprice[i].index=i;
+			onum[i].index=i;
+			omaxSum[i].index=i;			
+
+		//增加商品的数量，小计增加
+		oadd[i].onclick=function(){	
+			//数量加1	
+			var num = (Number)(onum[this.index].value)+1;  					
+			//更新数量	
+			onum[this.index].value = num;	 	
+			//更新小计
+		 	omaxSum[this.index].innerHTML=(Number)(oprice[this.index].innerHTML)*num; 	
+		 	//更新总计
+		 	ototalNum.innerHTML = (Number)(ototalNum.innerHTML)+1;		 	
+		 	////更新总商品数量
+		 	osum.innerHTML=(Number)(osum.innerHTML)+(Number)(oprice[this.index].innerHTML);
+		 	
+		}
+
+		//减少商品的数量，小计减少
+		oreduce[i].onclick=function(){
+			var num = (Number)(onum[this.index].value)
+			if(num<=0){
+				//当数量小于等于0时，数量固定为9，小计也为0
+				onum[this.index].value=0;
+				omaxSum[this.index].innerHTML=0;
+				//更新总计和总商品数量
+				osum.innerHTML = (Number)(osum.innerHTML);
+				ototalNum.innerHTML = (Number)(ototalNum.innerHTML)
+			}else{
+				//当数量大于0时，数量减1,
+				num = (Number)(onum[this.index].value)-1;					
+				onum[this.index].value = num;
+				//更新小计			
+				omaxSum[this.index].innerHTML=(Number)(oprice[this.index].innerHTML)*num;
+				//更新总计
+				osum.innerHTML=(Number)(osum.innerHTML)-(Number)(oprice[this.index].innerHTML);
+				//更新总商品数量
+				ototalNum.innerHTML = (Number)(ototalNum.innerHTML)-1;
+			}
+		}
+		
+
+	}
+
+	}	
+	</script>
+</body>
+</html>

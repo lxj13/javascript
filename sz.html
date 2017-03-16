@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>圆形时钟</title>
+	<style>
+		body{
+			background-color:#e7e7e7;
+		}
+		.wrap{
+			width:200px;
+			height:200px;
+			margin:0 auto;
+			border:10px solid #fff;
+			background-color: #c58641;
+			border-radius:200px;
+			position:relative;
+		}
+		#hour,#minu,#sec{
+			position:absolute;
+			left:100px;
+			top:100px;			
+			background-color:#fff;			
+		}
+		#hour{
+			width:50px;
+			height:10px;
+			border-radius:8px;
+		}
+		#minu{
+			width:70px;
+			height:8px;	
+			border-radius:10px;	
+		}
+		#sec{
+			width:90px;
+			height:6px;
+			border-radius:12px;			
+		}
+		#cir{
+			position:absolute;
+			left:94px;
+			top:94px;
+			width:18px;
+			height:18px;
+			border-radius:18px;
+			background-color:#fff;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">	
+		<span id="cir"></span>	
+		<span id="hour"></span>
+		<span id="minu"></span>
+		<span id="sec"></span>
+	</div>
+</body>
+<script>
+window.onload=function(){
+	var ohour=document.getElementById('hour');
+	var ominu=document.getElementById('minu');
+	var osec=document.getElementById('sec');
+	var timeId=null;
+	osec.style.transformOrigin="5% center";
+	ominu.style.transformOrigin="5% center";
+	ohour.style.transformOrigin="5% center";
+	//定时器	
+	timeId=setInterval(function(){
+		var now=new Date();
+		var h=now.getHours();
+		var m=now.getMinutes();
+		var s=now.getSeconds();
+		// var rd=rotateDegree(s);		
+		console.log(s);
+		var rs=(s-15)*6;
+		var rm=(m-15)*6;
+		var rh=(h-3)*30;		
+		osec.style.transform="rotate("+rs+"deg)";
+		ominu.style.transform="rotate("+rm+"deg)";
+		ohour.style.transform="rotate("+rh+"deg)";
+	},1000)
+
+}
+</script>
+</html>
