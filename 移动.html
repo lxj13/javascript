@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>移动</title>
+	<style>
+		ul{
+			padding:0;
+			margin:0;
+		}
+		li{
+			list-style:none;
+		}
+		.container{
+			width:600px;
+			height:400px;
+			margin:0 auto;
+			background-color:#ccc;			
+			overflow: hidden;
+			font-weight: bolder;
+			position:relative;
+		}
+		.container .ul1,.container .ul2{
+			width:200px;
+			height:400px;								
+		}
+		.container .ul1{
+			float:left;
+		}
+		.container .ul2{
+			float:right;
+		}
+		.container .ul1,.container .ul2{
+			background-color:rgba(0,0,0,0.4);
+		}
+		.container .ul1 li,.container .ul2 li{
+			width:200px;
+			height:40px;
+			line-height:40px;
+			text-align:center;
+			color:#fff;			
+		}
+		#left,#right{
+			width:160px;
+			height:60px;
+			line-height: 60px;
+			text-align:center;
+			margin:30px 0 0 20px;
+			background-color:#047311;
+			position:absolute;
+			left:200px;
+			font-size: 24px;
+		}
+		#left{
+			top:60px;
+		}
+		#right{
+			top:140px;
+		}
+		.li-style{
+			background-color:rgba(0,0,0,0.1);
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<ul class="ul1" id="ul1">
+			<li>朱茵</li>
+			<li>王源</li>
+			<li>蔡少芬</li>
+			<li>宋茜</li>
+			<li>易烊千玺</li>
+		</ul>
+		
+			<button id="left">左移</button>
+			<button id="right">右移</button>
+		
+		<ul class="ul2" id="ul2">
+			<li>王祖蓝</li>
+			<li>谢娜</li>
+			<li>何炅</li>
+			<li>吴昕</li>
+			<li>李小璐</li>
+			<li>贾乃亮</li>
+		</ul>
+	</div>
+
+<script>
+window.onload=function(){
+	var oleft = document.getElementById('left');
+	var oright = document.getElementById('right');
+	var oli = document.getElementsByTagName('li');
+	var oul1 = document.getElementById('ul1');
+	var oul2 = document.getElementById('ul2');
+
+	//循环遍历所有的li,绑定li的单击事件
+	for(var i=0;i<=oli.length-1;i++){
+		oli[i].onclick = function(){
+			this.className = 'li-style';
+		}
+	}
+	//右移事件
+	oright.onclick = function(){	
+		m(oul2);
+	}
+
+	//左移事件
+	oleft.onclick = function(){
+		m(oul1);
+	}
+
+
+	//封装m函数，用于循环遍历li,并且插入到另一个ul中
+	function m(obj){
+		for(var i=0;i<=oli.length-1;i++){
+			if(oli[i].getAttribute('class') == 'li-style' ){
+				obj.appendChild(oli[i]);
+				oli[i].className = '';
+			}
+		}
+	}
+
+}
+
+
+</script>
+</body>
+</html>

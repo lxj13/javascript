@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	a{text-decoration: none;}
+	.scroll-wraper{
+		width:1280px;
+		height:350px;
+		border:1px solid red;
+		margin: 0 auto;
+		margin-top:100px;
+		overflow: hidden;
+		position:relative;		
+	}
+	#s-con{
+		width:3200px;		
+		height:320px;
+		position:absolute;
+		left:0;
+		top:0;
+		margin-top:30px;
+	}
+	#scroll-con a{
+		display: block;
+		width:320px;
+		height:320px;
+		float:left;
+	}
+	.scroll-con img{
+		display:block;
+		width:320px;
+		height:320px;
+	}
+	#l,#r{
+		position:absolute;		
+		top:10px;
+		width:20px;
+		height:20px;
+		text-align:center;
+		line-height:20px;		
+	}
+	#l{
+		left:1200px;
+	}
+	#r{
+		left:1240px;
+	}
+	</style>
+</head>
+<body>
+	<div class="scroll-wraper">
+		<button id="l"><</button>
+		<button id="r">></button>
+		<div id="s-con">
+			<a href="#">
+				<img src="images/mi-img2.png" alt="">
+			</a>
+			<a href="#">
+				<img src="images/mi-img2.png" alt="">
+			</a>
+			<a href="#">
+				<img src="images/mi-img2.png" alt="">
+			</a>
+			<a href="#">
+				<img src="images/mi-img2.png" alt="">
+			</a>
+			<a href="#">
+				<img src="images/mi-img2.png" alt="">
+			</a>
+			<a href="#">
+				<img src="images/mi-img2.png" alt="">
+			</a>
+			<a href="#">
+				<img src="images/mi-img2.png" alt="">
+			</a>
+			<a href="#">
+				<img src="images/mi-img2.png" alt="">
+			</a>						
+		</div>
+	</div>
+
+<script>
+window.onload=function(){
+	var osCon = document.getElementById('s-con');
+	var ol = document.getElementById('l');
+	var or = document.getElementById('r');	
+	var timeId;
+	var timeId1;	
+
+	//移动函数
+	function move(obj, nNum){
+		clearInterval(obj.timeId1);		
+		var speed = 0;
+		//通过speed 正负控制方向		
+		if(obj.offsetLeft >= nNum){
+			speed = -10;  //向左
+			
+		}else{
+			speed = 10; //向右			
+		}
+		obj.timeId1 = setInterval(function(){
+			var left = obj.offsetLeft;
+			console.log(left);
+			obj.style.left = (left + speed) + 'px';
+      var result = nNum - obj.offsetLeft;
+			if(Math.abs(result) <= 10){
+					clearInterval(obj.timeId1);
+					obj.style.left  = nNum + 'px';
+			}
+		}, 30);
+	}
+	//向右移动事件
+	or.onclick = function(){
+		move(osCon,-1280);
+	}
+	//向左移动事件
+	ol.onclick = function(){
+		move(osCon,0);
+	}
+
+	//自动开启定时，左右移动
+	var nNum = -1280;
+	var speed = -10;
+	var a = 1280;
+	osCon.timeId = setInterval(function(){		
+		var left = osCon.offsetLeft;			
+		osCon.style.left = (left + speed) + 'px';
+      	var result = nNum - osCon.offsetLeft;
+		if(Math.abs(result) <= 10){		
+			speed = -speed;
+			nNum += a;
+			a = -a;
+			console.log(speed);
+		}				
+	}, 30);
+}
+</script>
+</body>
+</html>

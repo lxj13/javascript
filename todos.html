@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html >
+<head>
+	<meta charset="UTF-8">
+	<title>todos</title>
+	<style>
+		ul{
+			padding:0;
+			margin:0;
+		}
+		li{
+			list-style:none;
+		}
+		.container{
+			width:400px;
+			margin:0 auto;
+			border:1px solid rgba(0,0,0,0.2);
+			position:relative;
+		}
+		.title{
+			font-size: 80px;
+			color:rgba(230,2,2,0.6);
+			text-align:center;
+			font-weight: bolder;
+		}
+		#tb{
+			border:none;
+			font-size:20px; 
+			text-indent:4px;			
+		}
+		#btn{
+			width:100px;
+			height:30px;
+			border-radius:4px;
+			border:none;
+			background-color:rgb(230,2,2);
+			color:rgba(255,255,255,0.8);	
+			position:absolute;
+			right:20px;
+			top:246px;					
+		}
+		.box,.box1{
+			width:400px;
+			height:40px;			
+			border-top:1px solid rgba(0,0,0,0.2);			 		
+		}
+		.list-text{
+			display: inline-block;
+			height:40px;
+			line-height: 40px;
+			font-size: 20px;
+			text-indent:10px;
+			cursor:pointer;
+		}
+		.delect-text{
+			text-decoration: line-through;
+			color:rgba(0,0,0,0.4);
+		}
+		.delect-btn{
+			border:none;
+			background-color:rgb(230,2,2);
+			width:70px;
+			height:24px;
+			line-height:24px;
+			border-radius: 4px; 		
+			color:rgba(255,255,255,0.8);
+			float:right;
+			margin:8px 30px 0 0;		
+		}
+		.tab ul li{
+			float:left;
+			width:50px;
+			height:20px;
+			font-size: 14px;
+			text-align:center;
+			line-height:20px;
+			margin-top:10px;
+			color:rgba(0,0,0,0.4);	
+			margin-left:4px;				
+		}
+		.all{
+			border:1px solid rgba(0,0,0,0.2) ;	
+		}
+		#all,#ing,#finish{
+			cursor:pointer;
+		}
+	</style>
+</head>
+<body>
+	<div class="container" id="con">
+		<div>
+			<p class="title">Todos</p>
+			<input type="text" id="tb" placeholder="请输入待办事项">
+			<button id="btn">创建</button>
+		</div>
+			
+		<ul id="ul">
+			<!-- <li  class="box">
+				<span id="list-text" class="list-text">你好</span>
+				<button id="delect-btn" class="delect-btn">删除</button>
+			</li> -->
+		</ul>	
+
+		<div class="box tab">
+			<ul>
+				<li id="all" class="all">所有</li>
+				<li id="ing">进行中</li>
+				<li id="finish">已完成</li>
+			</ul>
+		</div>
+		
+	</div>
+
+
+<script>
+window.onload=function(){
+	var otb = document.getElementById('tb'); //获取文本框
+	var obtn = document.getElementById('btn'); //获取创建按钮
+	var oul = document.getElementById('ul');//获取ul容器
+	var i = 0;
+
+	//创建按钮的click事件单机时添加一个列表项
+	obtn.onclick = function(){
+		//添加li标签
+		var oli = document.createElement('li');//创建li
+		oli.className = 'box'; //给li标签添加class
+		var olast = oul.firstElementChild;  //获取li的父元素的第一个元素节点
+		oul.insertBefore(oli,olast);   //新创建的li添加到列表中
+
+
+		//在li标签下添加span标签
+		var ospan = document.createElement('span');  //创建li下的span标签元素节点
+		var ospanText = document.createTextNode(otb.value); //创建span的文本节点
+		ospan.className = 'list-text'; //给span 标签添加样式
+		otb.value = '';
+		ospan.appendChild(ospanText);  //将文本节点添加到span元素节点
+		oli.appendChild(ospan);  //将创建的span标签添加到li中
+
+		//为span绑定事件，点击时加删除线
+		ospan.onclick = function(){
+			ospan.className = 'list-text delect-text';
+		}
+
+		//在li标签下添加删除按钮
+		var ob = document.createElement('button');    //创建button元素节点
+		var obText = document.createTextNode('删除');  //创建button文本节点
+		ob.appendChild(obText);  //将文本节点添加到元素节点
+		ob.className = 'delect-btn';  //给按钮添加样式
+		oli.appendChild(ob);  //将创建的删除按钮添加到li标签中
+
+		i++;
+
+		//在创建按钮后立即帮点事件，点击时删除li标签
+		ob.onclick = function(){
+			oul.removeChild(oli);
+			i--;
+		}
+	}  
+
+	
+	var oallBtn = document.getElementById('all'); //所有按钮
+	var oingBtn = document.getElementById('ing'); //进行中按钮
+	var ofinishBtn = document.getElementById('finish'); //已完成按钮
+	var obox = document.getElementsByClassName('box'); //获取class为box的li标签
+	//点击所有按钮，显示所有列表	
+	oallBtn.onclick = function(){		
+		for(var j=0;j<=i;j++){
+			obox[j].style.display = 'block';
+		}
+		oallBtn.className='all';
+		oingBtn.className='';		
+		ofinishBtn.className='';
+	}
+
+	//点击进行中按钮，显示正在进行的列表
+	oingBtn.onclick=function(){
+		for(var j=0;j<=i;j++){
+			var os = obox[j].firstElementChild; //获取li下的span
+			if(os.getAttribute('class') == 'list-text delect-text'){
+				obox[j].style.display = 'none';
+			}else{
+				obox[j].style.display = 'block';
+			}		
+		}
+		oallBtn.className='';
+		oingBtn.className='all';		
+		ofinishBtn.className='';
+	}
+
+
+	//点击已完成按钮，显示已完成的列表
+	ofinishBtn.onclick=function(){
+		for(var j=0;j<i;j++){
+			var os = obox[j].firstElementChild; //获取li下的span
+			if(os.getAttribute('class') == 'list-text delect-text'){
+				obox[j].style.display = 'block';
+			}else{
+				obox[j].style.display = 'none';
+			}		
+		}
+		oallBtn.className='';
+		oingBtn.className='';
+		ofinishBtn.className='all';	
+	}
+
+	
+}
+</script>	
+</body>
+</html> 
